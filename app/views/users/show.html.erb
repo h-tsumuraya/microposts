@@ -1,5 +1,8 @@
 <div id="profile">
   <%= gravatar_for @user %><br>
-  名前:<%= @user.name %><br>
-  メールアドレス:<%= @user.email %>
+  名前 : <span><%= @user.name %></span><br>
+  メールアドレス : <span><%= @user.email %></span><br>
+  プロフィール : <span><%= @user.profile %></span><br>
+  所在地 : <span><%= @user.location %></span><br>
+  性別 : <span><%= @gender_str %></span>
 </div>

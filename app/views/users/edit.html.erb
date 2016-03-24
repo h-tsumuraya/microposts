@@ -15,6 +15,16 @@
       <%= f.label :profile %>
       <%= f.text_area :profile %>
 
+      <%= f.label :location %>
+      <%= f.text_field :location %>
+
+      <%= f.label :gender %><br/>
+      <label class="radio-inline "><%= f.radio_button :gender, "1" %>男性</label>
+      <label class="radio-inline "><%= f.radio_button :gender, "2" %>女性</label>
+      <label class="radio-inline "><%= f.radio_button :gender, "3" %>秘密</label>
+
+      <br/><br/>
+
       <%= f.submit "Edit my account", class: "btn btn-large btn-primary" %>
     <% end %>
   </div>

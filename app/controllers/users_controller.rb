@@ -2,6 +2,16 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+
+    # 性別の文字列セット
+    case @user.gender.to_i
+    when 1
+      @gender_str = "男性"
+    when 2
+      @gender_str = "女性"
+    else
+      @gender_str = "秘密"
+    end
   end
 
   def new
@@ -19,22 +29,20 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
-    # logger.debug("sessionのuser_id #{session[:user_id]}")
-    # logger.debug("paramsのid #{params[:id]}")
-    # if session[:user_id] == params[:id]
-    #   logger.debug("OK")
-    #   @user = User.find(params[:id])
-    # else
-    #   logger.debug("NG")
-    #   redirect_to root_path
-    # end
+    logger.debug(session[:user_id])
+    logger.debug(params[:id])
+    if session[:user_id].to_s == params[:id]
+      @user = User.find(params[:id])
+    else
+      flash[:warning] = "cannot edit other user's profile."
+      redirect_to root_path
+    end
   end
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params_update)
-      flash[:success] = "成功"
+      flash[:success] = "profile update success!"
       redirect_to @user
     else
       render :edit
@@ -49,7 +57,7 @@ class UsersController < ApplicationController
   end
 
   def user_params_update
-    params.require(:user).permit(:name, :email, :profile)
+    params.require(:user).permit(:name, :email, :profile, :location, :gender)
   end
 
 end
