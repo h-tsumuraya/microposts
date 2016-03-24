@@ -37,4 +37,9 @@ class User < ActiveRecord::Base
     def following?(other_user)
       following_users.include?(other_user)
     end
+
+    def feed_items
+      # フォローしているユーザーのIDを配列で取得。それに自分のIDを追加する的な処理
+      Micropost.where(user_id: following_user_ids + [self.id])
+    end
 end
