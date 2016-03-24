@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
+    @microposts = @user.microposts.order(created_at: :desc)
+
     # 性別の文字列セット
     case @user.gender.to_i
     when 1
