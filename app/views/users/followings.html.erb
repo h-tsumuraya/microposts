@@ -1,0 +1,10 @@
+<% if @followings.size > 0 %>
+<h3><%= @user.name %> is following user below.</h3>
+<ol class="user_list">
+  <% @followings.each do |user| %>
+    <%= render "user_list", user: user %>
+  <% end %>
+</ol>
+<% else %>
+ <h3><%= @user.name %> is not following anyone.</h3>
+<% end %>
