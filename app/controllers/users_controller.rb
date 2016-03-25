@@ -31,6 +31,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome to the Sample App!"
+      session[:user_id] = @user.id # セッションに追加してログイン状態にする
       redirect_to @user
     else
       render "new"
