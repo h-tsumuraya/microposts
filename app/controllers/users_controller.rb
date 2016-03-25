@@ -1,7 +1,14 @@
 class UsersController < ApplicationController
 
   def show
-    @user = User.find(params[:id])
+    # findだとユーザーが見つからなかったらerrorをはくので、find_by_idに
+    @user = User.find_by_id(params[:id])
+
+    # @userがnilならばルートへ飛ばす
+    if @user.nil?
+      flash[:warning] = "cannot find user.. (invalid user_id)"
+      return redirect_to root_path
+    end
 
     @microposts = @user.microposts.order(created_at: :desc)
 
