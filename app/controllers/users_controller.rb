@@ -39,11 +39,10 @@ class UsersController < ApplicationController
   end
 
   def edit
-    logger.debug(session[:user_id])
-    logger.debug(params[:id])
-    if session[:user_id].to_s == params[:id]
-      @user = User.find(params[:id])
-    else
+    @user = User.find(params[:id])
+
+    # 他のユーザーのプロフィールは編集できない
+    unless @user == current_user
       flash[:warning] = "cannot edit other user's profile."
       redirect_to root_path
     end
@@ -51,6 +50,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+
+    # 他のユーザーのプロフィールは編集できない
+    unless @user == current_user
+      flash[:warning] = "cannot edit other user's profile."
+      return redirect_to root_path
+    end
+
     if @user.update(user_params_update)
       flash[:success] = "profile update success!"
       redirect_to @user
