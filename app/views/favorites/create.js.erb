@@ -1,0 +1,1 @@
+$("#fav-<%= @id %>").replaceWith('<%= link_to "faved", favorite_path(@id), remote: true, method: :delete, id: "fav-#{@id}" %>')
