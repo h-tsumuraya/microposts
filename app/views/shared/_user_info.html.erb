@@ -4,3 +4,4 @@
 <span><%= pluralize(current_user.microposts.count, "micropost") %></span>
 <span><%= link_to "followings", followings_user_path(current_user.id) %></span>
 <span><%= link_to "followers", followers_user_path(current_user.id) %></span>
+<span><%= link_to "favs", favs_user_path(current_user.id) %></span>

@@ -75,6 +75,10 @@ class UsersController < ApplicationController
     @followers = @user.follower_users.all
   end
 
+  def favs
+    @microposts = current_user.favorite_microposts
+  end
+
   private
 
   def user_params

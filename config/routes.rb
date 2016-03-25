@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     member do
       get 'followings'
       get 'followers'
+      get 'favs'
     end
   end
   resources :sessions, only: [:new, :create, :destroy]
