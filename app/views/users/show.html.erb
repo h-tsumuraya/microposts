@@ -7,8 +7,8 @@
       <span>プロフィール : <%= @user.profile %></span><br>
       <span>所在地 : <%= @user.location %></span><br>
       <span>性別 : <%= @gender_str %></span>
-      <span><%= link_to "followings", user_followings_path(@user.id) %></span>
-      <span><%= link_to "followers", user_followers_path(@user.id) %></span>
+      <span><%= link_to "followings", followings_user_path(@user.id) %></span>
+      <span><%= link_to "followers", followers_user_path(@user.id) %></span>
       <% #自分のプロフィールならば編集ボタン追加 %>
       <% if @user == current_user %>
         <%= link_to "edit my profile", edit_user_path, class: "btn btn-xs btn-primary" %>
