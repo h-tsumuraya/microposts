@@ -1,0 +1,10 @@
+<% if @followers.size > 0 %>
+  <h3><%= @user.name %> is followed by user below.</h3>
+  <ol class="user_list">
+    <% @followers.each do |user| %>
+      <%= render "user_list", user: user %>
+    <% end %>
+  </ol>
+<% else %>
+  <h3><%= @user.name %> is not followed by everyone.</h3>
+<% end %>

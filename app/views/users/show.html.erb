@@ -1,12 +1,18 @@
 <div class="row">
   <aside class="col-md-4">
     <section class="user_info">
-      <%= gravatar_for @user %><br>
-      名前 : <span><%= @user.name %></span><br>
-      メールアドレス : <span><%= @user.email %></span><br>
-      プロフィール : <span><%= @user.profile %></span><br>
-      所在地 : <span><%= @user.location %></span><br>
-      性別 : <span><%= @gender_str %></span>
+      <%= gravatar_for @user %>
+      <span>名前 : <%= @user.name %></span><br>
+      <span>メールアドレス : <%= @user.email %></span><br>
+      <span>プロフィール : <%= @user.profile %></span><br>
+      <span>所在地 : <%= @user.location %></span><br>
+      <span>性別 : <%= @gender_str %></span>
+      <span><%= link_to "followings", followings_user_path(@user.id) %></span>
+      <span><%= link_to "followers", followers_user_path(@user.id) %></span>
+      <% #自分のプロフィールならば編集ボタン追加 %>
+      <% if @user == current_user %>
+        <%= link_to "edit my profile", edit_user_path, class: "btn btn-xs btn-primary" %>
+      <% end %>
     </section>
   </aside>
   <div class="col-md-8">

@@ -1,7 +1,14 @@
 class UsersController < ApplicationController
 
   def show
-    @user = User.find(params[:id])
+    # findだとユーザーが見つからなかったらerrorをはくので、find_by_idに
+    @user = User.find_by_id(params[:id])
+
+    # @userがnilならばルートへ飛ばす
+    if @user.nil?
+      flash[:warning] = "cannot find user.. (invalid user_id)"
+      return redirect_to root_path
+    end
 
     @microposts = @user.microposts.order(created_at: :desc)
 
@@ -24,6 +31,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome to the Sample App!"
+      session[:user_id] = @user.id # セッションに追加してログイン状態にする
       redirect_to @user
     else
       render "new"
@@ -31,11 +39,10 @@ class UsersController < ApplicationController
   end
 
   def edit
-    logger.debug(session[:user_id])
-    logger.debug(params[:id])
-    if session[:user_id].to_s == params[:id]
-      @user = User.find(params[:id])
-    else
+    @user = User.find(params[:id])
+
+    # 他のユーザーのプロフィールは編集できない
+    unless @user == current_user
       flash[:warning] = "cannot edit other user's profile."
       redirect_to root_path
     end
@@ -43,12 +50,29 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+
+    # 他のユーザーのプロフィールは編集できない
+    unless @user == current_user
+      flash[:warning] = "cannot edit other user's profile."
+      return redirect_to root_path
+    end
+
     if @user.update(user_params_update)
       flash[:success] = "profile update success!"
       redirect_to @user
     else
       render :edit
     end
+  end
+
+  def followings
+    @user = User.find(params[:id])
+    @followings = @user.following_users.all
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.follower_users.all
   end
 
   private

@@ -194,3 +194,23 @@ span.picture {
     border: 0;
   }
 }
+
+.user_list {
+  list-style: none;
+  padding: 0 auto;
+  li {
+    padding: 10px;
+    border-bottom: 1px solid #e8e8e8;
+    height: 70px;
+    width: 400px;
+  }
+  .user {
+    margin-top: 5em;
+    padding-top: 0;
+  }
+  .gravatar {
+    float: left;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+}
