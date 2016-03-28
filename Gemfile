@@ -30,6 +30,10 @@ gem 'bootstrap-sass'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# ページネーション
+gem 'kaminari'
+gem 'kaminari-bootstrap'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
