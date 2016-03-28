@@ -1,7 +1,7 @@
-<% is_retweet = micropost.retweet_users.include? current_user %>
 <li id="micropost-<%= micropost.id %>">
-  <% if is_retweet && @user == current_user %>
-    <span class="retweet">Retweet</span>
+  <% is_retweet = micropost.retweet_users.include? current_user %>
+  <% if is_retweet%>
+    <span class="retweet">you retweet</span>
   <% end %>
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
@@ -12,16 +12,16 @@
     <% #自分の投稿はリツイートできない %>
     <% unless micropost.user == current_user %>
       <% if is_retweet %>
-        <%= link_to "del", retweet_path(micropost.id), method: :delete %>
+        <%= link_to "unretweet", retweet_path(micropost.id, is_feed: @is_feed ? 1:0), remote: true, method: :delete, id: "re-#{micropost.id}" %>
       <% else %>
-        <%= link_to "retweet", retweets_path(micropost_id: micropost.id), method: :post %>
+        <%= link_to "retweet", retweets_path(micropost_id: micropost.id), remote: true, method: :post, id: "re-#{micropost.id}" %>
       <% end %>
     <% end %>
 
     <% if micropost.favorited_users.include? current_user %>
       <%= link_to "faved", favorite_path(micropost.id), remote: true, method: :delete, id: "fav-#{micropost.id}" %>
     <% else %>
-        <%= link_to "fav", favorites_path(micropost_id: micropost.id), remote: true, method: :post, id: "fav-#{micropost.id}" %>
+      <%= link_to "fav", favorites_path(micropost_id: micropost.id), remote: true, method: :post, id: "fav-#{micropost.id}" %>
     <% end %>
 
     <% if current_user == micropost.user %>

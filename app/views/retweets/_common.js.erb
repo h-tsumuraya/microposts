@@ -1,0 +1,5 @@
+<% unless @micropost.nil? %>
+$("#micropost-<%= @id %>").replaceWith("<%= escape_javascript(render(partial: 'microposts/micropost', locals: { micropost: @micropost })) %>")
+<% else %>
+$("#micropost-<%= @id %>").replaceWith("")
+<% end %>

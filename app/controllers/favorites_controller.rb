@@ -1,4 +1,6 @@
 class FavoritesController < ApplicationController
+  before_action :logged_in_user
+
   def create
     @id = params[:micropost_id]
     micropost = Micropost.find_by_id(@id)
