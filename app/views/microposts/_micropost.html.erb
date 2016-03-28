@@ -1,9 +1,22 @@
+<% is_retweet = micropost.retweet_users.include? current_user %>
 <li id="micropost-<%= micropost.id %>">
+  <% if is_retweet && @user == current_user %>
+    <span class="retweet">Retweet</span>
+  <% end %>
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
   <span class="content"><%= micropost.content %></span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+
+    <% #自分の投稿はリツイートできない %>
+    <% unless micropost.user == current_user %>
+      <% if is_retweet %>
+        <%= link_to "del", retweet_path(micropost.id), method: :delete %>
+      <% else %>
+        <%= link_to "retweet", retweets_path(micropost_id: micropost.id), method: :post %>
+      <% end %>
+    <% end %>
 
     <% if micropost.favorited_users.include? current_user %>
       <%= link_to "faved", favorite_path(micropost.id), remote: true, method: :delete, id: "fav-#{micropost.id}" %>

@@ -25,11 +25,13 @@ class User < ActiveRecord::Base
     ## お気に入り一覧関連
     # お気に入りの関係テーブルを取得
     has_many :micropost_favs, class_name:  "Favorite",
-                          foreign_key: "user_id", #ここにユーザーのidが入る
-                          dependent:   :destroy
+                              foreign_key: "user_id", #ここにユーザーのidが入る
+                              dependent:   :destroy
     # microposts_favを元に、micropostを取得
     has_many :favorite_microposts, through: :micropost_favs, source: :micropost
 
+    # Retweet
+    has_many :retweets, dependent: :destroy
 
     # 他のユーザーをフォローする
     def follow(other_user)
@@ -49,7 +51,10 @@ class User < ActiveRecord::Base
 
     def feed_items
       # フォローしているユーザーのIDを配列で取得。それに自分のIDを追加する的な処理
-      Micropost.where(user_id: following_user_ids + [self.id])
+      # or リツイートした投稿のidの配列
+      Micropost.where("user_id IN (?) OR id IN (?)",
+                      following_user_ids + [self.id],
+                      retweets.map(&:micropost_id))
     end
 
     # お気に入りに追加
@@ -66,5 +71,16 @@ class User < ActiveRecord::Base
     def del_from_fav(micropost)
       fav = micropost_favs.find_by(micropost_id: micropost.id)
       fav.destroy if fav
+    end
+
+    # リツイートを行う
+    def do_retweet(micropost_id)
+      retweets.find_or_create_by(micropost_id: micropost_id)
+    end
+
+    # リツイートの削除
+    def del_retweet(micropost_id)
+      retweet = retweets.find_by(micropost_id: micropost_id)
+      retweet.destroy if retweet
     end
 end

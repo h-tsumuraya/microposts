@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :microposts
   resources :relationships, only: [:create, :destroy]
   resources :favorites, only: [:create, :destroy]
+  resources :retweets, only: [:create, :destroy]
 
   # 該当しないパスだったら、'/'へ飛ばす
   get '*anything' => redirect('/')
