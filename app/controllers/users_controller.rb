@@ -10,7 +10,7 @@ class UsersController < ApplicationController
       return redirect_to root_path
     end
 
-    @microposts = @user.microposts.order(created_at: :desc)
+    @microposts = @user.microposts.order(created_at: :desc).page(params[:page])
 
     # 性別の文字列セット
     case @user.gender.to_i
